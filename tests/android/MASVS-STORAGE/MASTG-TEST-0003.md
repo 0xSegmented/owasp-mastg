@@ -101,6 +101,10 @@ Remember that you can target a specific app by filtering the Logcat output as fo
 ```bash
 adb logcat | grep "$(adb shell ps | grep <package-name> | awk '{print $2}')"
 ```
+Or use Powershell:
+```powershell
+adb logcat | Select-String -Pattern (adb shell ps | Select-String -Pattern '<package-name>' | ForEach-Object { $_.Line -split '\s+' } | Select-Object -Index 1) -SimpleMatch
+```
 
 > If you already know the app PID you may give it directly using `--pid` flag.
 
